@@ -20,6 +20,7 @@ class obj{
 class F1 extends obj{
     dir = 0
     pts = 0
+    vida = 3
 
 
     mover(){
@@ -32,15 +33,16 @@ class F1 extends obj{
     }
 
     colid(objeto){
-        if((this.x < objeto.x + objeto.w)&&
-           (this.x - this.w >objeto.x)&&
-           (this.y < objeto.y + objeto.w)&&
-           (this.y + this.w > objeto.y)){
-            return true
-           }else{
+        if((this.x < objeto.x + objeto.width)&&
+            (this.x + this.w > objeto.x)&&
+            (this.y < objeto.y + objeto.h)&&
+            (this.y + this.h > objeto.y)){
+            return true       
+        }else{
             return false
-           }
-}
+        }
+
+    }
 
     point(objeto){
         if(objeto.y > 601){
@@ -60,6 +62,12 @@ class Car extends obj{
         this.x = (Math.random() * (540 - 2 + 1) + 2)
         }
     }
+
+    recomeca(){
+        this.y = -100
+        this.x = (Math.random() * (540 - 2 + 1) + 2)    
+    }
+
 }
 
 class Est_l extends obj{

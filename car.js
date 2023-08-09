@@ -4,12 +4,16 @@ let des = document.getElementById('des').getContext('2d')
 //definição das instancias
 const f1 = new F1(260,460,45,100, 'assets/img/poke.png')
 const c1 = new Car(100,100,45,100, 'assets/img/bola.png')
-const c2 = new Car(150,400,45,100, 'assets/img/chari.png')
-const c3 = new Car(450,600,45,100, 'assets/img/chari.png')
+// const c2 = new Car(150,400,45,100, 'assets/img/chari.png')
+// const c3 = new Car(450,600,45,100, 'assets/img/chari.png')
 const bg1 = new Est_l(10,2,8,600,'white')
 const bg2 = new Est_l(580,2,8,600,'white')
 const bg3_1 = new Est_c(291,0,8,80,'yellow')
 const bg3_2 = new Est_c(291,320,8,80,'yellow')
+
+let texto_game_over = new Text()
+let jogar = true
+
 
 //definição de textos
 const t1 = new Text()
@@ -46,6 +50,13 @@ document.addEventListener('keyup',(event)=>{
     }
 })
 //game over
+    function game_over(){
+    if(F1.vida <=0){
+        jogar = false
+    }
+    }
+
+
 
 //pontos
     function pontos(){
@@ -54,30 +65,25 @@ document.addEventListener('keyup',(event)=>{
             console.log(f1.pts)
         }
     }
-    function pontos(){
-        if(f1.point(c2)){
-            f1.pts += 1
-            console.log(f1.pts)
-        }
-    }
+    // function pontos(){
+    //     if(f1.point(c2)){
+    //         f1.pts += 1
+    //         console.log(f1.pts)
+    //     }
+    // }
 
-    function pontos(){
-        if(f1.point(c3)){
-            f1.pts += 1
-            console.log(f1.pts)
-        }
-    }
+    // function pontos(){
+    //     if(f1.point(c3)){
+    //         f1.pts += 1
+    //         console.log(f1.pts)
+    //     }
+    // }
 
 //colisão
 function colisao(){
     if(f1.colid(c1)){
-        console.log('colidiu 1')
-        som1.pause()
-        som2.play()
-    }else if (f1.colid(c2)){
-        console.log('coidiu 2')
-        som1.pause()
-        som2.play()
+        c1.recomeca()
+        f1.vida -=1
     }
 }
 //desenha
@@ -86,26 +92,33 @@ function desenha(){
     bg3_2.des_obj()
     bg2.des_obj()
     bg1.des_obj()
-    c1.des_obj()
-    c2.des_obj()
-    c3.des_obj()
-    t1.des_text('Pontos:',40,40,'yellow','20px Times')
-    t2.des_text('vidas:',450,40,'orange','20px Times')
-    t3.des_text(f1.pts,103,40,'yellow','20px Times')
-    t4.des_text('10',500,40,'orange','20px Times')
-    f1.des_obj()
-}
+    if(jogar){
+        c1.des_obj()
+        // c2.des_obj()
+        // c3.des_obj()
+        t1.des_text('Pontos:',40,40,'yellow','20px Times')
+        t2.des_text('vidas:',450,40,'orange','20px Times')
+        t3.des_text(f1.pts,103,40,'yellow','20px Times')
+        t4.des_text(f1.vida,500,40,'orange','20px Times')
+        f1.des_obj()
+    }else{
+        texto_game_over.des_text('Perdeu',128,350,'orange','50px','Times')
+    }
+    }
+
 //atualiza
 function atualiza(){
-    c1.mover()
-    c2.mover()
-    c3.mover()
-    f1.mover()
-    colisao()
-    pontos()
     bg3_1.mover()
     bg3_2.mover()
-    
+    if(jogar){
+        c1.mover()
+        // c2.mover()
+        // c3.mover()
+        f1.mover()
+        pontos()
+        colisao()
+        game_over
+    }
 }
 
 //principal
